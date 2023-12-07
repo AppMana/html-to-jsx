@@ -1,3 +1,6 @@
+import possibleStandardNames from '../react-dom-bindings/possibleStandardNames';
+
+
 // https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType
 export const NODE_TYPE = {
   ELEMENT: 1,
@@ -8,6 +11,7 @@ export const NODE_TYPE = {
 export const ATTRIBUTE_MAPPING = {
   for: 'htmlFor',
   class: 'className',
+  ...possibleStandardNames
 };
 
 export const ELEMENT_ATTRIBUTE_MAPPING = {

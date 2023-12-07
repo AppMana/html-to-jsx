@@ -26,37 +26,6 @@ import {
   ELEMENT_TAG_NAME_MAPPING,
 } from './mapping';
 
-const HTMLDOMPropertyConfig = require('react-dom/lib/HTMLDOMPropertyConfig');
-const SVGDOMPropertyConfig = require('react-dom/lib/SVGDOMPropertyConfig');
-
-/**
- * Iterates over elements of object invokes iteratee for each element
- *
- * @param {object}   obj        Collection object
- * @param {function} iteratee   Callback function called in iterative processing
- * @param {any}      context    This arg (aka Context)
- */
-const eachObj = (obj, iteratee, context) => {
-  Object.keys(obj).forEach(key => {
-    if (Object.hasOwnProperty.call(obj, key)) {
-      iteratee.call(context || obj, key, obj[key]);
-    }
-  });
-};
-
-// Populate property map with ReactJS's attribute and property mappings
-// TODO handle/use .Properties value eg: MUST_USE_PROPERTY is not HTML attr
-const mappingAttributesFromReactConfig = config => {
-  eachObj(config.Properties, propname => {
-    const mapFrom = config.DOMAttributeNames[propname] || propname.toLowerCase();
-
-    if (!ATTRIBUTE_MAPPING[mapFrom]) ATTRIBUTE_MAPPING[mapFrom] = propname;
-  });
-};
-
-mappingAttributesFromReactConfig(HTMLDOMPropertyConfig);
-mappingAttributesFromReactConfig(SVGDOMPropertyConfig);
-
 /**
  * Convert tag name to tag name suitable for JSX.
  *
@@ -116,6 +85,7 @@ class HTMLtoJSX {
   constructor({ createClass = false, indent = '  ', outputClassName = undefined } = {}) {
     this.config = { createClass, indent, outputClassName };
   }
+
   /**
    * Reset the internal state of the converter
    */
@@ -124,6 +94,7 @@ class HTMLtoJSX {
     this.level = 0;
     this._inPreTag = false;
   }
+
   /**
    * Main entry point to the converter. Given the specified HTML, returns a
    * JSX object representing it.

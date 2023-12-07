@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 /* eslint-disable no-eval */
 
 /**
@@ -10,18 +14,20 @@
  *
  */
 
-import React from 'react'; // eslint-disable-line no-unused-vars
-import Enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
-import { transform } from 'babel-core';
-
+import React from 'react';
+import '@testing-library/jest-dom';
 import HTMLtoJSX from '../src';
+import { transform } from '@babel/core';
+import TestRenderer from 'react-test-renderer'
 
-Enzyme.configure({ adapter: new Adapter() });
 global.React = React;
 
+function toJSON(testInstance) {
+  return testInstance.toJSON();
+}
+
 const shallowRenderJSX = jsx =>
-  [shallow, eval, code => transform(code, { babelrc: false, presets: ['react'] }).code].reduceRight(
+  [toJSON, TestRenderer.create, eval, code => transform(code, { babelrc: false, presets: ['@babel/preset-react'] }).code].reduceRight(
     (retVal, func) => func(retVal),
     jsx,
   );
@@ -66,13 +72,13 @@ describe('HTMLtoJSX', () => {
     const jsx = converter.convert('<div>Hello world!</div>');
     expect(jsx).toBe(
       'var FooComponent = React.createClass({\n' +
-        '  render: function() {\n' +
-        '    return (\n' +
-        '\n' +
-        '      <div>Hello world!</div>\n' +
-        '    );\n' +
-        '  }\n' +
-        '});',
+      '  render: function() {\n' +
+      '    return (\n' +
+      '\n' +
+      '      <div>Hello world!</div>\n' +
+      '    );\n' +
+      '  }\n' +
+      '});',
     );
   });
 
@@ -84,13 +90,13 @@ describe('HTMLtoJSX', () => {
     const jsx = result;
     expect(jsx).toBe(
       'React.createClass({\n' +
-        '  render: function() {\n' +
-        '    return (\n' +
-        '\n' +
-        '      <div>Hello world!</div>\n' +
-        '    );\n' +
-        '  }\n' +
-        '});',
+      '  render: function() {\n' +
+      '    return (\n' +
+      '\n' +
+      '      <div>Hello world!</div>\n' +
+      '    );\n' +
+      '  }\n' +
+      '});',
     );
   });
 
@@ -271,7 +277,7 @@ describe('HTMLtoJSX', () => {
     it('should dangerously set <style> tag contents', () => {
       const converter = new HTMLtoJSX({ createClass: false });
       const jsx = converter
-        .convert("<style>\nh1 {\n    background: url('http://foo.bar/img.jpg';\n}\n</style>")
+        .convert('<style>\nh1 {\n    background: url(\'http://foo.bar/img.jpg\';\n}\n</style>')
         .trim();
       expect(jsx).toBe(
         '<style dangerouslySetInnerHTML={{__html: "\\nh1 {\\n    background: url(\'http://foo.bar/img.jpg\';\\n}\\n" }} />',
