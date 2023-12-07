@@ -18,13 +18,19 @@
  */
 
 import cssToObject from '@kohlmannj/css-to-object';
-import { isNumeric, trimEnd } from './utils';
+import { isNumeric, trimEnd } from './conv-utils';
 import {
   NODE_TYPE,
   ATTRIBUTE_MAPPING,
   ELEMENT_ATTRIBUTE_MAPPING,
   ELEMENT_TAG_NAME_MAPPING,
 } from './mapping';
+
+import jsdom from 'jsdom';
+
+const { JSDOM } = jsdom;
+const document = new JSDOM(`<!DOCTYPE html>`).window.document;
+
 
 /**
  * Convert tag name to tag name suitable for JSX.

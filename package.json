@@ -1,24 +1,25 @@
 {
-  "name": "@erikwithuhk/html-to-jsx",
-  "version": "1.0.6",
-  "description": "Converts HTML to JSX for use with React",
+  "name": "@appmana/html-to-jsx",
+  "version": "2.0.0",
+  "description": "Converts HTML to JSX for use with React 18.2",
   "main": "lib/index.js",
   "files": [
     "/lib/**/*.js"
   ],
   "scripts": {
-    "build": "npm run clean && babel src --out-dir lib --copy-files",
-    "build:watch": "npm run build -- --watch",
+    "build": "yarn run clean && babel src --out-dir lib --copy-files",
+    "build:watch": "yarn run build -- --watch",
     "clean": "rimraf lib",
     "lint": "eslint ./src",
-    "prepublishOnly": "npm run clean && npm run test && npm run build",
+    "prepack": "yarn run build",
+    "prepublishOnly": "yarn run clean && yarn run test && yarn run test",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:watchAll": "jest --watchAll"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erikwithuhk/html-to-jsx.git"
+    "url": "git+https://github.com/AppMana/html-to-jsx.git"
   },
   "keywords": [
     "react",
@@ -32,10 +33,12 @@
   "contributors": [
     "erikwithuhk",
     "gimlids",
-    "kohlmannj"
+    "kohlmannj",
+    "doctorpangloss"
   ],
   "maintainers": [
-    "erikwithuhk"
+    "erikwithuhk",
+    "doctorpangloss"
   ],
   "license": "BSD-3-Clause",
   "bugs": {
@@ -45,7 +48,7 @@
   "dependencies": {
     "@kohlmannj/css-to-object": "^1.2.1",
     "js-string-escape": "^1.0.1",
-    "jsdom-no-contextify": "~3.1.0",
+    "jsdom": "^23.0.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "yargs": "~17.7.2"

@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 /* eslint-disable no-eval */
 
 /**
@@ -15,7 +11,6 @@
  */
 
 import React from 'react';
-import '@testing-library/jest-dom';
 import HTMLtoJSX from '../src';
 import { transform } from '@babel/core';
 import TestRenderer from 'react-test-renderer'
@@ -27,7 +22,10 @@ function toJSON(testInstance) {
 }
 
 const shallowRenderJSX = jsx =>
-  [toJSON, TestRenderer.create, eval, code => transform(code, { babelrc: false, presets: ['@babel/preset-react'] }).code].reduceRight(
+  [toJSON, TestRenderer.create, eval, code => transform(code, {
+    babelrc: false,
+    presets: ['@babel/preset-react'],
+  }).code].reduceRight(
     (retVal, func) => func(retVal),
     jsx,
   );
