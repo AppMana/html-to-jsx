@@ -5,3 +5,11 @@ temp
 *.sublime-project
 *.sublime-workspace
 *.log
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.idea/
